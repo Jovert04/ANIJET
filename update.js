@@ -9,6 +9,11 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("fullname").value = waifu.fullname;
         document.getElementById("birthday").value = waifu.birthday;
         document.getElementById("anime").value = waifu.anime;
+        document.getElementById("season").value = waifu.season;
+        document.getElementById("episode").value = waifu.episode;
+        document.getElementById("movie").value = waifu.movie;
+        document.getElementById("favoriteFoods").value = waifu.favoriteFoods;
+        document.getElementById("hobby").value = waifu.hobby;
     }
 
     waifuForm.addEventListener("submit", (event) => {
@@ -18,27 +23,32 @@ document.addEventListener("DOMContentLoaded", function () {
         const fullname = document.getElementById("fullname").value;
         const birthday = document.getElementById("birthday").value;
         const anime = document.getElementById("anime").value;
+        const season = document.getElementById("season").value;
+        const episode = document.getElementById("episode").value;
+        const movie = document.getElementById("movie").value;
+        const favoriteFoods = document.getElementById("favoriteFoods").value;
+        const hobby = document.getElementById("hobby").value;
         const imageInput = document.getElementById("image");
         const reader = new FileReader();
 
         reader.onload = function (event) {
             const image = event.target.result;
-            const updatedWaifu = { nickname, fullname, birthday, anime, image };
+            const updatedWaifu = { nickname, fullname, birthday, anime, season, episode, movie, favoriteFoods, hobby, image };
             waifus[currentWaifuIndex] = updatedWaifu;
             localStorage.setItem("waifus", JSON.stringify(waifus));
             localStorage.removeItem("currentWaifuIndex");
-            window.location.href = "index.html";  // Updated to index.html
+            window.location.href = "index.html";
         };
 
         if (imageInput.files.length > 0) {
             reader.readAsDataURL(imageInput.files[0]);
         } else {
             const waifu = waifus[currentWaifuIndex];
-            const updatedWaifu = { nickname, fullname, birthday, anime, image: waifu.image };
+            const updatedWaifu = { nickname, fullname, birthday, anime, season, episode, movie, favoriteFoods, hobby, image: waifu.image };
             waifus[currentWaifuIndex] = updatedWaifu;
             localStorage.setItem("waifus", JSON.stringify(waifus));
             localStorage.removeItem("currentWaifuIndex");
-            window.location.href = "index.html";  // Updated to index.html
+            window.location.href = "index.html";
         }
     });
 });
