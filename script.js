@@ -17,6 +17,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
+    const calculateAge = (birthday) => {
+                const birthDate = new Date(birthday);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    };
+
     const loadWaifus = () => {
         const waifus = JSON.parse(localStorage.getItem("waifus")) || [];
         gallery.innerHTML = "";
@@ -29,11 +40,18 @@ document.addEventListener("DOMContentLoaded", function () {
             img.alt = waifu.nickname;
             img.addEventListener("click", () => {
                 modalImage.src = waifu.image;
+                const age = calculateAge(waifu.birthday);
                 modalInfo.innerHTML = `
                     <strong>Nick Name:</strong> ${waifu.nickname}<br>
                     <strong>Full Name:</strong> ${waifu.fullname}<br>
                     <strong>Birthday:</strong> ${waifu.birthday}<br>
-                    <strong>Anime:</strong> ${waifu.anime}
+                    <strong>Age:</strong> ${age}<br>
+                    <strong>Anime:</strong> ${waifu.anime}<br>
+                    <strong>Season:</strong> ${waifu.season}<br>
+                    <strong>Episode:</strong> ${waifu.episode}<br>
+                    <strong>Movie:</strong> ${waifu.movie}<br>
+                    <strong>Favorite Foods:</strong> ${waifu.favoriteFoods}<br>
+                    <strong>Hobby:</strong> ${waifu.hobby}
                 `;
                 modal.style.display = "block";
             });
@@ -87,12 +105,17 @@ document.addEventListener("DOMContentLoaded", function () {
         const fullname = document.getElementById("fullname").value;
         const birthday = document.getElementById("birthday").value;
         const anime = document.getElementById("anime").value;
+        const season = document.getElementById("season").value;
+        const episode = document.getElementById("episode").value;
+        const movie = document.getElementById("movie").value;
+        const favoriteFoods = document.getElementById("favoriteFoods").value;
+        const hobby = document.getElementById("hobby").value;
         const imageInput = document.getElementById("image");
         const reader = new FileReader();
 
         reader.onload = function (event) {
             const image = event.target.result;
-            const waifu = { nickname, fullname, birthday, anime, image };
+            const waifu = { nickname, fullname, birthday, anime, season, episode, movie, favoriteFoods, hobby, image };
             saveWaifu(waifu);
             loadWaifus();
             waifuForm.reset();
@@ -104,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             const waifus = JSON.parse(localStorage.getItem("waifus")) || [];
             const waifu = waifus[currentEditIndex];
-            const updatedWaifu = { nickname, fullname, birthday, anime, image: waifu.image };
+            const updatedWaifu = { nickname, fullname, birthday, anime, season, episode, movie, favoriteFoods, hobby, image: waifu.image };
             saveWaifu(updatedWaifu);
             loadWaifus();
             waifuForm.reset();
